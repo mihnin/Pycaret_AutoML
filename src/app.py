@@ -8,7 +8,7 @@ import os
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levellevelname)s - %(message)s',
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler('app.log'),
         logging.StreamHandler()
@@ -22,20 +22,22 @@ def init_session_state():
         st.session_state['is_connected'] = False
     if 'connection_params' not in st.session_state:
         st.session_state['connection_params'] = {
-            'host': '',
-            'port': '',
-            'dbname': '',
-            'user': '',
-            'password': ''
+            'host': 'localhost',
+            'port': '6000',
+            'dbname': 'postgres',
+            'user': 'postgres',
+            'password': '123'
         }
 
 def create_engine_from_session():
     """Создание engine из параметров сессии"""
     try:
         params = st.session_state.connection_params
+        logger.info(f"Параметры подключения: {params}")
+        port = int(params['port'])  # Преобразуем порт в целое число
         return create_engine(
             f"postgresql://{params['user']}:{params['password']}@"
-            f"{params['host']}:{params['port']}/{params['dbname']}"
+            f"{params['host']}:{port}/{params['dbname']}"
         )
     except Exception as e:
         logger.error(f"Ошибка создания engine: {e}")

@@ -1,0 +1,3 @@
+2024-11-04 01:13:42,952 - __main__ - ERROR - Ошибка создания engine: invalid literal for int() with base 10: 'postgres'
+2024-11-04 01:14:54,344 - __main__ - ERROR - Ошибка создания engine: invalid literal for int() with base 10: 'postgres'
+2024-11-04 01:16:45,459 - __main__ - ERROR - Ошибка создания engine: invalid literal for int() with base 10: 'postgres'

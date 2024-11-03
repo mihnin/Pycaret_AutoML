@@ -1,0 +1,38 @@
+1. Установка значений по умолчанию для параметров подключения
+- Установить значения по умолчанию для хоста, порта, имени базы данных, имени пользователя и пароля в функции `init_session_state` в файле `src/app.py`.
+- Файл: `src/app.py`
+- Изменения:
+  ```python
+  def init_session_state():
+      """Инициализация состояния сессии"""
+      if 'is_connected' not in st.session_state:
+          st.session_state['is_connected'] = False
+      if 'connection_params' not in st.session_state:
+          st.session_state['connection_params'] = {
+              'host': 'localhost',
+              'port': '6000',
+              'dbname': 'postgres',
+              'user': 'postgres',
+              'password': '123'
+          }
+  ```
+
+2. Исправление ошибки подключения к БД на второй странице управления таблицами
+- Убедиться, что engine правильно создается и передается в функцию `table_management_page` в файле `src/table_management.py`.
+- Файл: `src/table_management.py`
+- Изменения:
+  ```python
+  def table_management_page(engine):
+      st.title("Управление таблицами")
+      
+      try:
+          # Используем напрямую engine вместо создания нового
+          tab1, tab2 = st.tabs(["Загрузка данных", "Управление таблицами"])
+          
+          with tab1:
+              handle_data_upload(engine)
+          
+          with tab2:
+              handle_table_management(engine)
+      except Exception as e:
+          st.error(f"❌ Ошибка при подключении к базе данных: {e}")
