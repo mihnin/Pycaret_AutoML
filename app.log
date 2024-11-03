@@ -9,3 +9,16 @@
 2024-11-04 01:23:59,647 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
 2024-11-04 01:24:14,537 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
 2024-11-04 01:24:17,147 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:26:36,978 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:26:42,272 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:26:47,755 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:26:48,627 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:31:27,588 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:31:30,996 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:31:35,104 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:31:39,304 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:31:40,141 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:34:11,897 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:34:15,116 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:34:18,986 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:34:19,588 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}

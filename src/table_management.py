@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine, text
+from sqlalchemy.types import String, Integer, Float, Boolean, DateTime
 import contextlib
 import re
 from typing import Optional
@@ -22,18 +23,35 @@ def load_large_csv(file_obj, chunksize=10000):
     return pd.concat(chunks)
 
 def save_dataframe_to_db(df: pd.DataFrame, table_name: str, engine, if_exists='replace'):
-    # Определяем типы данных
+    # Конвертируем столбцы с датами в datetime
+    for col in df.columns:
+        if 'дата' in col.lower() or 'date' in col.lower():
+            try:
+                df[col] = pd.to_datetime(df[col])
+            except Exception as e:
+                st.warning(f"Не удалось преобразовать столбец {col} в дату: {e}")
+
+    # Расширенное сопоставление типов данных
     dtype_mapping = {
-        'int64': 'INTEGER',
-        'float64': 'FLOAT',
-        'object': 'TEXT',
-        'datetime64[ns]': 'TIMESTAMP',
-        'bool': 'BOOLEAN'
+        'int64': Integer,
+        'float64': Float,
+        'object': String,
+        'datetime64[ns]': DateTime,
+        'bool': Boolean,
+        'category': String
     }
     
-    column_types = {col: dtype_mapping.get(str(dtype), 'TEXT') 
-                   for col, dtype in df.dtypes.items()}
+    # Определяем типы для каждого столбца
+    column_types = {}
+    for col, dtype in df.dtypes.items():
+        sql_dtype = dtype_mapping.get(str(dtype))
+        if sql_dtype is not None:
+            column_types[col] = sql_dtype
+        else:
+            st.warning(f"Неизвестный тип данных для столбца {col}: {dtype}. Используется String.")
+            column_types[col] = String
     
+    # Сохраняем DataFrame в базу данных
     df.to_sql(table_name, engine, if_exists=if_exists, 
               index=False, dtype=column_types)
 
