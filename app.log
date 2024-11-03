@@ -1,3 +1,11 @@
 2024-11-04 01:13:42,952 - __main__ - ERROR - Ошибка создания engine: invalid literal for int() with base 10: 'postgres'
 2024-11-04 01:14:54,344 - __main__ - ERROR - Ошибка создания engine: invalid literal for int() with base 10: 'postgres'
 2024-11-04 01:16:45,459 - __main__ - ERROR - Ошибка создания engine: invalid literal for int() with base 10: 'postgres'
+2024-11-04 01:20:53,508 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': 'postgres', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:20:53,508 - __main__ - ERROR - Ошибка создания engine: invalid literal for int() with base 10: 'postgres'
+2024-11-04 01:23:42,613 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:23:51,060 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:23:54,191 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:23:59,647 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:24:14,537 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}
+2024-11-04 01:24:17,147 - __main__ - INFO - Параметры подключения: {'host': 'localhost', 'port': '6000', 'dbname': 'postgres', 'user': 'postgres', 'password': '123'}

@@ -23,7 +23,7 @@ def init_session_state():
     if 'connection_params' not in st.session_state:
         st.session_state['connection_params'] = {
             'host': 'localhost',
-            'port': '6000',
+            'port': 6000,  # Установите порт по умолчанию как строку с числовым значением
             'dbname': 'postgres',
             'user': 'postgres',
             'password': '123'
