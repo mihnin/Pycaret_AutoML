@@ -6,6 +6,7 @@ import contextlib
 import re
 from typing import Optional
 import io
+from roles import is_admin, check_table_ownership
 
 @contextlib.contextmanager
 def create_db_engine(host, port, dbname, user, password):
@@ -23,6 +24,25 @@ def load_large_csv(file_obj, chunksize=10000):
     return pd.concat(chunks)
 
 def save_dataframe_to_db(df: pd.DataFrame, table_name: str, engine, if_exists='replace'):
+    # Добавить проверку на SQL инъекции
+    if any(char in table_name for char in [';', '--', '/*', '*/', 'union']):
+        raise ValueError("Недопустимые символы в имени таблицы")
+    
+    if not is_valid_table_name(table_name):
+        raise ValueError("Недопустимое имя таблицы")
+
+    # Проверка прав доступа
+    if not is_admin() and if_exists == 'replace':
+        raise PermissionError("Только администраторы могут перезаписывать таблицы")
+
+    # Валидация данных перед сохранением
+    for col in df.columns:
+        if df[col].isna().all():
+            raise ValueError(f"Столбец {col} содержит только пустые значения")
+
+    # Добавляем скрытое поле user
+    df['user'] = st.session_state['username']
+    
     # Конвертируем столбцы с датами в datetime
     for col in df.columns:
         if 'дата' in col.lower() or 'date' in col.lower():
@@ -96,18 +116,38 @@ def handle_data_upload(engine):
 def handle_table_management(engine):
     st.header("Управление существующими таблицами")
     
-    # Получаем список существующих таблиц
+    if not st.session_state.get('authenticated'):
+        st.error("Необходима авторизация")
+        return
+        
     try:
-        query = "SELECT table_name FROM information_schema.tables WHERE table_schema='public'"
+        query = """
+        SELECT table_name 
+        FROM information_schema.tables 
+        WHERE table_schema='public'
+        """
         tables = pd.read_sql(query, engine)['table_name'].tolist()
+        
+        if not is_admin():
+            # Фильтруем таблицы для обычного пользователя
+            tables = [t for t in tables if check_table_ownership(t, st.session_state['username'])]
         
         if tables:
             selected_table = st.selectbox("Выберите таблицу", tables)
             
             if selected_table:
-                # Загружаем данные выбранной таблицы
-                query = f"SELECT * FROM {selected_table}"
-                df = pd.read_sql(query, engine)
+                # Добавить защиту от SQL инъекций
+                if any(char in selected_table for char in [';', '--', '/*', '*/', 'union']):
+                    st.error("Недопустимое имя таблицы")
+                    return
+                    
+                # Используем параметризованный запрос
+                query = text("SELECT * FROM :table_name")
+                df = pd.read_sql(query, engine, params={'table_name': selected_table})
+                
+                # Фильтруем данные по пользователю, если не администратор
+                if not is_admin():
+                    df = df[df['user'] == st.session_state['username']]
                 
                 # Показываем данные в редактируемой таблице
                 st.subheader(f"Данные таблицы: {selected_table}")
@@ -125,8 +165,15 @@ def handle_table_management(engine):
                 with col2:
                     if st.button("🗑️ Удалить таблицу"):
                         try:
+                            # Проверка имени таблицы перед удалением
+                            if not is_valid_table_name(selected_table):
+                                st.error("Недопустимое имя таблицы")
+                                return
+                                
+                            # Используем параметризованный запрос для удаления
                             with engine.connect() as conn:
-                                conn.execute(f"DROP TABLE {selected_table}")
+                                query = text("DROP TABLE IF EXISTS :table_name")
+                                conn.execute(query, {"table_name": selected_table})
                             st.success(f"✅ Таблица {selected_table} удалена")
                         except Exception as e:
                             st.error(f"❌ Ошибка при удалении: {e}")

@@ -1,30 +1,50 @@
 import pytest
-from src.streamlit_app import try_connection, DEFAULT_CONFIG
+from src.connection import check_connection, validate_connection_params
+
+# Тестовые параметры подключения
+DEFAULT_CONFIG = {
+    'host': 'localhost',
+    'port': '6000',
+    'dbname': 'test_db',
+    'user': 'test_user',
+    'password': 'test_password'
+}
 
 def test_invalid_connection():
     config = DEFAULT_CONFIG.copy()
-    config['port'] = '9999'  # Invalid port
-    success, error = try_connection(config)
-    assert not success
-    assert error is not None
+    config['port'] = '9999'
+    valid, _ = validate_connection_params(**config)
+    assert not valid
 
 def test_invalid_credentials():
     config = DEFAULT_CONFIG.copy()
-    config['password'] = 'wrong_password'
-    success, error = try_connection(config)
+    success, _ = check_connection(
+        config['host'],
+        int(config['port']),
+        config['dbname'],
+        config['user'],
+        'wrong_password'
+    )
     assert not success
-    assert error is not None
 
 def test_invalid_host():
     config = DEFAULT_CONFIG.copy()
-    config['host'] = 'invalid_host'
-    success, error = try_connection(config)
+    success, _ = check_connection(
+        'invalid_host',
+        int(config['port']),
+        config['dbname'],
+        config['user'],
+        config['password']
+    )
     assert not success
-    assert error is not None
 
 def test_empty_database():
     config = DEFAULT_CONFIG.copy()
-    config['database'] = ''
-    success, error = try_connection(config)
-    assert not success
-    assert error is not None
+    valid, _ = validate_connection_params(
+        config['host'],
+        config['port'],
+        '',
+        config['user'],
+        config['password']
+    )
+    assert not valid

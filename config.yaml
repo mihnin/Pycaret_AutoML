@@ -1,0 +1,12 @@
+# config.yaml
+credentials:
+  usernames:
+    admin:
+      email: admin@example.com
+      name: Admin User
+      password: $2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LedYQNB8UHUYzxD8K
+      role: admin
+cookie:
+  name: random_cookie_name
+  key: random_signature_key
+  expiry_days: 30
